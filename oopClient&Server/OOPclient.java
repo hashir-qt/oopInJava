@@ -39,7 +39,7 @@ public class OOPclient {
          catch(IOException ime){
         }
     }
-     public void closeSocket(){
+     public void quitClient(){
       try {
         socket.close();
       } catch (IOException ime) {
@@ -63,7 +63,7 @@ public class OOPclient {
           c++;
          }
          sc.close();
-         tcp.closeSocket();
+         tcp.quitClient();
 
     }
 }
