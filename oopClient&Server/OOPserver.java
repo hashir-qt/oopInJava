@@ -43,9 +43,6 @@ public class OOPserver {
             br = new BufferedReader(isr);
             String message = br.readLine();
             System.out.println("Client says: " + message);
-            if(message.equals("dir")){
-                 sendDir();
-            }
             if(message.equals("quit")){
                 clientConnect();
             }
@@ -55,17 +52,6 @@ public class OOPserver {
        catch(IOException ime){
             System.out.println("I0 exception hhj");
        }   
-      }
-      public void sendDir(){
-        try {
-            out = new PrintWriter(clientSocket.getOutputStream(), true);
-            for(int i = 0; i < Files.length; i++){
-                out.println(Files[i]);
-                
-            }
-        } catch (Exception e) {
-            
-        }
       }
        public void quitClient(){
         try{

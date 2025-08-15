@@ -25,20 +25,8 @@ public class OOPclient {
       
       }
     }
-public void getDir(){
-  try {
-    isr = new InputStreamReader(socket.getInputStream()); 
-    br = new BufferedReader(isr);
-    String response = br.readLine();
-    System.out.println(response);
-    while ((response = br.readLine()) != null) {
-      System.out.println(response);
-    }
-    recieve();
-  } catch (IOException ime) {
-    
-  }
-}
+
+
     public void recieve(){
         try{
           isr = new InputStreamReader(socket.getInputStream()); 
@@ -67,9 +55,6 @@ public void getDir(){
          while (c < 100) {
           message = sc.nextLine();
           tcp.send(message);
-          if(message.equals("dir")){
-           tcp.getDir();
-          }
           if(message.equals("quit")){
             System.out.println("Quitting....");
             break;
