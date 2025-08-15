@@ -35,8 +35,8 @@ public void getDir(){
       System.out.println(response);
     }
     recieve();
-  } catch (Exception e) {
-    // TODO: handle exception
+  } catch (IOException ime) {
+    
   }
 }
     public void recieve(){
