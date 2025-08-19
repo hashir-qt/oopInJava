@@ -1,5 +1,6 @@
 import java.io.*;
 import java.net.*;
+import java.util.Scanner;
 
 public class OOPserver {
      ServerSocket serverSocket;
@@ -44,6 +45,7 @@ public class OOPserver {
             String message = br.readLine();
             System.out.println("Client says: " + message);
             if(message.equals("quit")){
+                System.out.println("Server is running and waiting for client connection...");
                 clientConnect();
             }
         
@@ -69,8 +71,11 @@ public class OOPserver {
     public static void main(String args[]) throws IOException 
     {
     
-        OOPserver server = new OOPserver();       
-            server.startServer(9090);
+        OOPserver server = new OOPserver();    
+            Scanner sc = new Scanner(System.in);
+            System.out.print("Enter PortNumber: ");
+            int portNum = sc.nextInt();   
+            server.startServer(portNum);
             server.clientConnect();
             int c = 0;
             while (c < 100) {
@@ -80,6 +85,7 @@ public class OOPserver {
             }
             System.out.println("Limit Reached Closing Server.....");
             server.quitServer();
+            sc.close();
         
     }
 }

@@ -49,7 +49,11 @@ public class OOPclient {
     
       Scanner sc = new Scanner(System.in);
          OOPclient tcp = new OOPclient();
-         tcp.connectToServer("localhost", 9090);
+         System.out.println("Enter IP Address: ");
+         String IPAdd = sc.nextLine();
+         System.out.println("Enter PortNumber: ");
+         int portNum = sc.nextInt();
+         tcp.connectToServer(IPAdd, portNum);
          String message;
          int c =0;
          while (c < 100) {
