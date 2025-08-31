@@ -3,89 +3,86 @@ import java.net.*;
 import java.util.Scanner;
 
 public class OOPserver {
-     ServerSocket serverSocket;
-     Socket clientSocket;
-     BufferedReader br;
-     InputStreamReader isr;
-     PrintWriter out;
-     String[] Files = {"names.txt", "numbers.txt", "test.txt"};
-      public void startServer(int portNumber){
-          // create a server socket on port number 9090
+    ServerSocket serverSocket;
+    Socket clientSocket;
+    DataInputStream dis;
+    DataOutputStream dos;
+
+    public void startServer(int portNumber) {
         try {
-            serverSocket = new ServerSocket(9090);
+            serverSocket = new ServerSocket(portNumber);
             System.out.println("Server is running and waiting for client connection...");
         } catch (IOException ime) {
-             System.out.println("I0 exception");
+            System.out.println("IO exception while starting server");
         }
+    }
 
-      }
-      public void clientConnect(){
+    public void clientConnect() {
         try {
             clientSocket = serverSocket.accept();
-           System.out.println("Client connected!");
-
+            System.out.println("Client connected!");
+            // Initialize data streams once the client is connected
+            dis = new DataInputStream(clientSocket.getInputStream());
+            dos = new DataOutputStream(clientSocket.getOutputStream());
         } catch (IOException ime) {
-            System.out.println("I0 exception");
+            System.out.println("IO exception while connecting client");
         }
+    }
 
-      }
-      public void sendMessage(){
-        try{
-            out = new PrintWriter(clientSocket.getOutputStream(), true);
-            out.println("Message received by the server.");
+    public void sendMessage() {
+        try {
+            dos.writeUTF("Message received by the server.");
+            dos.flush(); // flush ensures the message is actually sent
+        } catch (IOException ime) {
+            System.out.println("IO exception while sending message");
         }
-        catch(IOException ime){
-            System.out.println("I0 exception");
-        }
-      }
-      public void recieveMessage(){
-        try{
-            isr = new InputStreamReader(clientSocket.getInputStream());
-            br = new BufferedReader(isr);
-            String message = br.readLine();
+    }
+
+    public void recieveMessage() {
+        try {
+            String message = dis.readUTF();
             System.out.println("Client says: " + message);
-            if(message.equals("quit")){
-                System.out.println("Server is running and waiting for client connection...");
-                clientConnect();
+            if (message.equalsIgnoreCase("quit")) {
+                System.out.println("Client disconnected. Waiting for another client...");
+                clientConnect(); // wait for next client
             }
-        
-            
+        } catch (IOException ime) {
+            System.out.println("IO exception while receiving message");
         }
-       catch(IOException ime){
-            System.out.println("I0 exception hhj");
-       }   
-      }
-       public void quitClient(){
-        try{
+    }
+
+    public void quitClient() {
+        try {
             clientSocket.close();
+        } catch (IOException ime) {
+            System.out.println("Error closing client socket");
         }
-       catch(IOException ime){}
-       }
-       public void quitServer(){
-        try{
+    }
+
+    public void quitServer() {
+        try {
             serverSocket.close();
+        } catch (IOException ime) {
+            System.out.println("Error closing server socket");
         }
-       catch(IOException ime){}
-       }
-         
-    public static void main(String args[]) throws IOException 
-    {
-    
-        OOPserver server = new OOPserver();    
-            Scanner sc = new Scanner(System.in);
-            System.out.print("Enter PortNumber: ");
-            int portNum = sc.nextInt();   
-            server.startServer(portNum);
-            server.clientConnect();
-            int c = 0;
-            while (c < 100) {
-                server.recieveMessage();
-                server.sendMessage();
-                c++;
-            }
-            System.out.println("Limit Reached Closing Server.....");
-            server.quitServer();
-            sc.close();
-        
+    }
+
+    public static void main(String args[]) throws IOException {
+        OOPserver server = new OOPserver();
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter PortNumber: ");
+        int portNum = sc.nextInt();
+        server.startServer(portNum);
+        server.clientConnect();
+
+        int c = 0;
+        while (c < 1000) {
+            server.recieveMessage();
+            server.sendMessage();
+            c++;
+        }
+        System.out.println("Limit Reached. Closing Server.....");
+        server.quitServer();
+        sc.close();
     }
 }
