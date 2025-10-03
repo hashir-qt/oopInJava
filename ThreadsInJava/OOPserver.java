@@ -11,7 +11,7 @@ public class OOPserver {
     public void startServer(int portNumber) {
         try {
             serverSocket = new ServerSocket(portNumber);
-            System.out.println("Server is running and waiting for clients...");
+            System.out.println("Hashir's Server is running and waiting for clients...");
 
             while (c < LIMIT) { // bounded loop
                 Socket clientSocket = serverSocket.accept();
@@ -19,7 +19,8 @@ public class OOPserver {
 
                 // Each client handled in its own thread
                 ClientHandler handler = new ClientHandler(clientSocket, this);
-                handler.start();
+                Thread th = new Thread (new ClientHandler(clientSocket, this));
+                th.start();
                 c++;
             }
 
@@ -54,7 +55,7 @@ public class OOPserver {
     }
 }
 
-class ClientHandler extends Thread {
+class ClientHandler implements Runnable {
     Socket clientSocket;
     DataInputStream dis;
     DataOutputStream dos;
@@ -100,7 +101,6 @@ class ClientHandler extends Thread {
         }
     }
 
-    @Override
     public void run() {
         try {
             String message;
@@ -115,7 +115,7 @@ class ClientHandler extends Thread {
                 }
 
                 // Reply back only to this client
-                sendMessage("Server received: " + message);
+                sendMessage("Hi From Hashir's Server" + message);
             }
         } catch (Exception e) {
             System.out.println("Connection closed with client: " + clientSocket);
