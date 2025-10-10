@@ -36,7 +36,7 @@ public class newalgo {
       int c1 = 0;
         for(int i =start; i<=end; i++){
         for(int j = i; j<= i; j++){
-            System.out.println(j);;
+            System.out.println(j);
             c1 = j;
         }
         i = c1 + 1;
@@ -76,6 +76,18 @@ public class newalgo {
             c4 = j;
         }
         i = c4 + 8;
+    }
+    }
+}
+    public  static void h5(int start, int end){
+     int c5 = 0;
+    for(int i =start; i<=end; i++){
+         if(i % 8 == 0){
+        for(int j = i; j<= i +7; j++){
+            System.out.println(j);;
+            c5 = j;
+        }
+        i = c5 + 8;
     }
     }
 }
