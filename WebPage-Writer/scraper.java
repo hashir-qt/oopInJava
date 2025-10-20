@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 public class scraper {
-    @SuppressWarnings("deprecation")
     public static void main(String[] args) {
         try{
          String link = ("https://en.wikipedia.org/wiki/Artificial_intelligence");
@@ -18,7 +17,7 @@ public class scraper {
         while((content = inp.readLine()) != null){
             out.write(content);
             out.newLine();
-        }
+        } 
           in.close();
           out.close();  
          }
